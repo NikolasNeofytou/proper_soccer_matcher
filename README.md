@@ -73,11 +73,14 @@ Unlike generic sports booking platforms, Proper Soccer Matcher is **built exclus
 
 Comprehensive documentation is available in the following files:
 
+- **[Setup Guide](SETUP.md)** - Development environment setup and quick start
 - **[Project Plan](PROJECT_PLAN.md)** - Detailed project roadmap, features, and vision
 - **[Architecture](ARCHITECTURE.md)** - Technical architecture and system design
 - **[Database Schema](DATABASE_SCHEMA.md)** - Complete database structure and relationships
 - **[API Documentation](API_DOCUMENTATION.md)** - RESTful API endpoints and usage
 - **[Features Comparison](FEATURES_COMPARISON.md)** - How we compare to Playtomic and competitors
+- **[Contributing Guide](CONTRIBUTING.md)** - How to contribute to the project
+- **[Deployment Guide](DEPLOYMENT.md)** - Infrastructure and deployment instructions
 
 ## 🛠️ Technology Stack
 
@@ -104,40 +107,34 @@ Comprehensive documentation is available in the following files:
 
 ### Prerequisites
 
-- Node.js 20+
-- PostgreSQL 15+
-- Redis 7+
-- Docker (optional)
+- Node.js 20+ and npm 10+
+- Docker and Docker Compose
+- Git
 
-### Installation
+### Quick Start
 
 ```bash
 # Clone the repository
 git clone https://github.com/NikolasNeofytou/proper_soccer_matcher.git
 cd proper_soccer_matcher
 
-# Install dependencies (when implemented)
+# Install dependencies
 npm install
 
 # Set up environment variables
 cp .env.example .env
 
-# Run database migrations
-npm run migrate
+# Start local services (PostgreSQL, Redis, Elasticsearch)
+docker-compose up -d
 
-# Start development server
+# Start the backend development server
 npm run dev
 ```
 
-### Docker Setup
+The API will be available at `http://localhost:3000`  
+API Documentation at `http://localhost:3000/api/docs`
 
-```bash
-# Build and run with Docker Compose
-docker-compose up -d
-
-# Run migrations
-docker-compose exec api npm run migrate
-```
+For detailed setup instructions, see **[SETUP.md](SETUP.md)**
 
 ## 📱 Mobile Apps
 
@@ -150,8 +147,10 @@ Mobile applications for iOS and Android will be available on:
 
 ### Phase 1: MVP (Months 1-3)
 - [x] Project planning and research
-- [ ] User authentication and profiles
-- [ ] Basic pitch listing and search
+- [x] Project setup and infrastructure
+- [x] User authentication (register/login)
+- [x] Basic user profiles
+- [ ] Pitch listing and search
 - [ ] Simple booking system
 - [ ] Payment integration
 - [ ] Mobile-responsive web app
@@ -189,8 +188,9 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 ## 📊 Project Status
 
-**Current Phase**: Research & Planning ✅  
-**Next Milestone**: MVP Development (Q1 2025)
+**Current Phase**: MVP Development 🚧  
+**Completed**: Research & Planning ✅, Initial Setup ✅  
+**Next Milestone**: Core Features Implementation (Q1 2025)
 
 ## 📄 License
 
