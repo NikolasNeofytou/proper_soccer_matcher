@@ -1,0 +1,43 @@
+{
+  "name": "proper-soccer-matcher",
+  "version": "0.1.0",
+  "description": "Soccer booking platform connecting players with pitches",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=backend",
+    "dev:frontend": "npm run dev --workspace=frontend",
+    "dev:mobile": "npm run dev --workspace=mobile",
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "clean": "rm -rf node_modules packages/*/node_modules packages/*/dist packages/*/build",
+    "setup": "npm install && npm run setup --workspaces --if-present"
+  },
+  "keywords": [
+    "soccer",
+    "football",
+    "booking",
+    "sports",
+    "field-booking",
+    "pitch-booking"
+  ],
+  "author": "Nikolas Neofytou",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NikolasNeofytou/proper_soccer_matcher.git"
+  },
+  "devDependencies": {
+    "prettier": "^3.1.1",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  }
+}
