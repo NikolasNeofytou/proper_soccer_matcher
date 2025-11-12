@@ -10,7 +10,7 @@ import { BookingsModule } from './bookings/bookings.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env',
+      envFilePath: '../../.env',
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
