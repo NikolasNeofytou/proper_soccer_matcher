@@ -37,6 +37,7 @@ async function bootstrap() {
     .addTag('users', 'User management')
     .addTag('pitches', 'Pitch management')
     .addTag('bookings', 'Booking management')
+    .addTag('payments', 'Payment processing')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
