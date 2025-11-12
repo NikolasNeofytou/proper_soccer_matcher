@@ -38,6 +38,7 @@ async function bootstrap() {
     .addTag('pitches', 'Pitch management')
     .addTag('bookings', 'Booking management')
     .addTag('payments', 'Payment processing')
+    .addTag('reviews', 'Review and rating system')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
