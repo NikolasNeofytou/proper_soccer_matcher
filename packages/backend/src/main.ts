@@ -41,6 +41,7 @@ async function bootstrap() {
     .addTag('reviews', 'Review and rating system')
     .addTag('matches', 'Player matching system')
     .addTag('notifications', 'Notification system')
+    .addTag('admin', 'Admin dashboard and management')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
