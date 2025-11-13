@@ -67,6 +67,10 @@ export class UsersService {
       throw new NotFoundException(`Player profile for user ${userId} not found`);
     }
     await this.playerProfilesRepository.update(profile.id, profileData);
-    return this.playerProfilesRepository.findOne({ where: { userId } });
+    const updatedProfile = await this.playerProfilesRepository.findOne({ where: { userId } });
+    if (!updatedProfile) {
+      throw new NotFoundException(`Player profile for user ${userId} not found after update`);
+    }
+    return updatedProfile;
   }
 }

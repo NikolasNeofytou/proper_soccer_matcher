@@ -37,6 +37,12 @@ async function bootstrap() {
     .addTag('users', 'User management')
     .addTag('pitches', 'Pitch management')
     .addTag('bookings', 'Booking management')
+    .addTag('payments', 'Payment processing')
+    .addTag('reviews', 'Review and rating system')
+    .addTag('matches', 'Player matching system')
+    .addTag('notifications', 'Notification system')
+    .addTag('admin', 'Admin dashboard and management')
+    .addTag('assistant', '24/7 AI pitch receptionist')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

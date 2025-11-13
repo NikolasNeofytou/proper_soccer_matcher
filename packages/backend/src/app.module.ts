@@ -5,12 +5,18 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { PitchesModule } from './pitches/pitches.module';
 import { BookingsModule } from './bookings/bookings.module';
+import { PaymentsModule } from './payments/payments.module';
+import { ReviewsModule } from './reviews/reviews.module';
+import { MatchesModule } from './matches/matches.module';
+import { NotificationsModule } from './notifications/notifications.module';
+import { AdminModule } from './admin/admin.module';
+import { AssistantModule } from './assistant/assistant.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env',
+      envFilePath: '../../.env',
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -31,6 +37,12 @@ import { BookingsModule } from './bookings/bookings.module';
     UsersModule,
     PitchesModule,
     BookingsModule,
+    PaymentsModule,
+    ReviewsModule,
+    MatchesModule,
+    NotificationsModule,
+    AdminModule,
+    AssistantModule,
   ],
 })
 export class AppModule {}
