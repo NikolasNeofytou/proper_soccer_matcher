@@ -42,6 +42,7 @@ async function bootstrap() {
     .addTag('matches', 'Player matching system')
     .addTag('notifications', 'Notification system')
     .addTag('admin', 'Admin dashboard and management')
+    .addTag('assistant', '24/7 AI pitch receptionist')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
