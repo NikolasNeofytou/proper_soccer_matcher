@@ -40,6 +40,7 @@ async function bootstrap() {
     .addTag('payments', 'Payment processing')
     .addTag('reviews', 'Review and rating system')
     .addTag('matches', 'Player matching system')
+    .addTag('notifications', 'Notification system')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
