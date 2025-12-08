@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_DB: proper_soccer_matcher
     ports:
-      - '5432:5432'
+      - '5433:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -17,12 +17,14 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - proper-soccer-network
 
   redis:
     image: redis:7-alpine
     container_name: proper-soccer-redis
     ports:
-      - '6379:6379'
+      - '6380:6379'
     volumes:
       - redis_data:/data
     healthcheck:
@@ -30,6 +32,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - proper-soccer-network
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
@@ -47,8 +51,78 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+    networks:
+      - proper-soccer-network
+
+  backend:
+    build:
+      context: ./packages/backend
+      dockerfile: Dockerfile
+      target: development
+    container_name: proper-soccer-backend
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_USER: user
+      DATABASE_PASSWORD: password
+      DATABASE_NAME: proper_soccer_matcher
+      DATABASE_URL: postgresql://user:password@postgres:5432/proper_soccer_matcher
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_URL: redis://redis:6379
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      JWT_SECRET: your-super-secret-jwt-key-change-this-in-production
+      JWT_EXPIRES_IN: 15m
+      REFRESH_TOKEN_SECRET: your-super-secret-refresh-token-key
+      REFRESH_TOKEN_EXPIRES_IN: 7d
+      API_PREFIX: /api/v1
+      CORS_ORIGIN: http://localhost:3001,http://localhost:19006
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./packages/backend:/app
+      - /app/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - proper-soccer-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./packages/frontend
+      dockerfile: Dockerfile
+      target: development
+    container_name: proper-soccer-frontend
+    environment:
+      NODE_ENV: development
+      NEXT_PUBLIC_API_URL: http://localhost:3000/api/v1
+      NEXT_PUBLIC_APP_NAME: Proper Soccer Matcher
+      NEXT_PUBLIC_APP_URL: http://localhost:3001
+    ports:
+      - '3001:3001'
+    volumes:
+      - ./packages/frontend:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      - backend
+    networks:
+      - proper-soccer-network
+    restart: unless-stopped
 
 volumes:
   postgres_data:
   redis_data:
   elasticsearch_data:
+
+networks:
+  proper-soccer-network:
+    driver: bridge
