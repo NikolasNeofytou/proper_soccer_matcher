@@ -13,9 +13,9 @@ export function useLogin() {
       setAuth(data.user, data.accessToken, data.refreshToken);
       // Redirect based on role
       if (data.user.role === 'pitch_owner') {
-        router.push('/business/dashboard');
+        router.push('/business-dashboard');
       } else {
-        router.push('/dashboard');
+        router.push('/player-dashboard');
       }
     },
   });
@@ -31,9 +31,9 @@ export function useRegister() {
       setAuth(data.user, data.accessToken, data.refreshToken);
       // Redirect based on role
       if (data.user.role === 'pitch_owner') {
-        router.push('/business/dashboard');
+        router.push('/business-dashboard');
       } else {
-        router.push('/dashboard');
+        router.push('/player-dashboard');
       }
     },
   });

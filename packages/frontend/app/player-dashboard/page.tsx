@@ -14,7 +14,7 @@ export default function CustomerDashboard() {
     if (!isAuthenticated) {
       router.push('/login');
     } else if (user?.role === 'pitch_owner') {
-      router.push('/business/dashboard');
+      router.push('/business-dashboard');
     }
   }, [isAuthenticated, user, router]);
 

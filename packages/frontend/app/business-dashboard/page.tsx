@@ -14,7 +14,7 @@ export default function BusinessDashboard() {
     if (!isAuthenticated) {
       router.push('/login');
     } else if (user?.role === 'player') {
-      router.push('/dashboard');
+      router.push('/player-dashboard');
     }
   }, [isAuthenticated, user, router]);
 

@@ -13,7 +13,7 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-gray-800 bg-gray-900/80 backdrop-blur-xl supports-[backdrop-filter]:bg-gray-900/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
@@ -44,7 +44,7 @@ export function Header() {
             Find Matches
           </Link>
           {isAuthenticated && user?.role === 'pitch_owner' && (
-            <Link href="/business/dashboard" className="text-sm font-medium hover:text-primary transition-colors">
+            <Link href="/business-dashboard" className="text-sm font-medium hover:text-primary transition-colors">
               Business Dashboard
             </Link>
           )}
@@ -54,7 +54,7 @@ export function Header() {
         <div className="flex items-center gap-3">
           {isAuthenticated ? (
             <>
-              <Link href={user?.role === 'pitch_owner' ? '/business/dashboard' : '/dashboard'}>
+              <Link href={user?.role === 'pitch_owner' ? '/business-dashboard' : '/player-dashboard'}>
                 <Button variant="ghost" size="sm">
                   Dashboard
                 </Button>
