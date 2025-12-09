@@ -11,6 +11,15 @@ import { MatchesModule } from './matches/matches.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { AdminModule } from './admin/admin.module';
 import { AssistantModule } from './assistant/assistant.module';
+import { User } from './users/entities/user.entity';
+import { PlayerProfile } from './users/entities/player-profile.entity';
+import { Pitch } from './pitches/entities/pitch.entity';
+import { Booking } from './bookings/entities/booking.entity';
+import { Payment } from './payments/entities/payment.entity';
+import { Review, ReviewHelpfulness } from './reviews/entities/review.entity';
+import { Match, MatchParticipant } from './matches/entities/match.entity';
+import { Notification } from './notifications/entities/notification.entity';
+import { AssistantConversation, AssistantMessage } from './assistant/entities/assistant.entity';
 
 @Module({
   imports: [
@@ -27,7 +36,20 @@ import { AssistantModule } from './assistant/assistant.module';
         username: configService.get('DATABASE_USER'),
         password: configService.get('DATABASE_PASSWORD'),
         database: configService.get('DATABASE_NAME'),
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        entities: [
+          User,
+          PlayerProfile,
+          Pitch,
+          Booking,
+          Payment,
+          Review,
+          ReviewHelpfulness,
+          Match,
+          MatchParticipant,
+          Notification,
+          AssistantConversation,
+          AssistantMessage,
+        ],
         synchronize: configService.get('NODE_ENV') === 'development',
         logging: configService.get('NODE_ENV') === 'development',
       }),
