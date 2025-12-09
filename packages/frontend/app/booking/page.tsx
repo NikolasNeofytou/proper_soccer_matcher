@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Calendar, Clock, MapPin, Users, FileText, CreditCard, ArrowLeft, Check } from 'lucide-react';
 import { usePitch } from '@/lib/hooks/use-pitches';
 import { useCreateBooking } from '@/lib/hooks/use-bookings';
+import { usePaymentMethods } from '@/lib/hooks/use-payments';
 import { useAuthStore } from '@/lib/stores/auth.store';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -19,6 +20,7 @@ export default function BookingPage() {
   const preselectedDate = searchParams.get('date') || '';
 
   const { data: pitch, isLoading } = usePitch(pitchId);
+  const { data: paymentMethods } = usePaymentMethods();
   const createBooking = useCreateBooking();
 
   const [selectedDate, setSelectedDate] = useState(preselectedDate);
@@ -26,6 +28,13 @@ export default function BookingPage() {
   const [playerCount, setPlayerCount] = useState(10);
   const [notes, setNotes] = useState('');
   const [agreed, setAgreed] = useState(false);
+
+  // Get default payment method
+  const defaultPaymentMethodId = useMemo(() => {
+    if (!paymentMethods || paymentMethods.length === 0) return '';
+    const defaultMethod = paymentMethods.find(m => m.isDefault);
+    return defaultMethod?.id || paymentMethods[0].id;
+  }, [paymentMethods]);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -58,6 +67,11 @@ export default function BookingPage() {
 
     if (!selectedDate || !selectedTimeSlot || !agreed) {
       alert('Please complete all required fields and agree to the terms');
+      return;
+    }
+
+    if (!paymentMethods || paymentMethods.length === 0) {
+      router.push('/payment-methods');
       return;
     }
 
@@ -308,6 +322,68 @@ export default function BookingPage() {
                       </div>
                     </div>
 
+                    {/* Payment Method Selection */}
+                    <div className="mb-6">
+                      <label className="block text-sm font-medium text-gray-300 mb-3">
+                        Payment Method
+                      </label>
+                      {!paymentMethods || paymentMethods.length === 0 ? (
+                        <div className="p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-xl">
+                          <p className="text-sm text-yellow-400 mb-3">
+                            Add a payment method to complete your booking
+                          </p>
+                          <Button
+                            onClick={() => router.push('/payment-methods')}
+                            variant="secondary"
+                            size="sm"
+                            className="w-full bg-yellow-500/10 hover:bg-yellow-500/20 text-yellow-400 border-yellow-500/20"
+                          >
+                            Add Payment Method
+                          </Button>
+                        </div>
+                      ) : (
+                        <div className="space-y-2">
+                          {paymentMethods.map((method) => (
+                            <div
+                              key={method.id}
+                              className={`p-3 rounded-xl border-2 transition-all cursor-default ${
+                                method.id === defaultPaymentMethodId
+                                  ? 'border-primary-500 bg-primary-500/5'
+                                  : 'border-gray-700 bg-gray-800/50'
+                              }`}
+                            >
+                              <div className="flex items-center gap-3">
+                                <CreditCard className="w-5 h-5 text-gray-400" />
+                                <div className="flex-1">
+                                  <div className="text-sm font-medium text-white capitalize">
+                                    {method.type === 'card' && method.brand
+                                      ? `${method.brand} Card`
+                                      : method.type.replace('_', ' ')}
+                                  </div>
+                                  {method.type === 'card' && (
+                                    <div className="text-xs text-gray-400">
+                                      •••• {method.last4}
+                                    </div>
+                                  )}
+                                </div>
+                                {method.isDefault && (
+                                  <span className="px-2 py-1 bg-primary-500/10 border border-primary-500/20 text-primary-400 text-xs font-medium rounded">
+                                    Default
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                          <button
+                            onClick={() => router.push('/payment-methods')}
+                            className="w-full p-3 rounded-xl border-2 border-dashed border-gray-700 hover:border-primary-500/50 bg-gray-800/30 hover:bg-gray-800/50 transition-all text-sm text-gray-400 hover:text-primary-400"
+                          >
+                            + Manage Payment Methods
+                          </button>
+                        </div>
+                      )}
+                    </div>
+
                     <div className="mb-6">
                       <label className="flex items-start gap-3 cursor-pointer">
                         <input
@@ -331,21 +407,21 @@ export default function BookingPage() {
 
                     <Button
                       onClick={handleSubmit}
-                      disabled={!agreed || createBooking.isPending}
+                      disabled={!agreed || createBooking.isPending || !paymentMethods || paymentMethods.length === 0}
                       className="w-full py-6 text-lg font-semibold bg-primary-600 hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {createBooking.isPending ? (
                         'Processing...'
                       ) : (
                         <>
-                          <CreditCard className="w-5 h-5 mr-2" />
-                          Confirm & Pay £{totalAmount}
+                          <Check className="w-5 h-5 mr-2" />
+                          Confirm Booking
                         </>
                       )}
                     </Button>
 
                     <p className="text-xs text-center text-gray-500 mt-4">
-                      Your card will be charged after confirmation
+                      You&apos;ll be charged £{totalAmount} after your booking is completed
                     </p>
                   </>
                 )}
