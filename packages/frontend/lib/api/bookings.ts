@@ -36,8 +36,8 @@ export interface BookingConfirmation {
 export const bookingsApi = {
   // Get user's bookings
   getMyBookings: async (): Promise<Booking[]> => {
-    const response = await apiClient.get('/bookings/my-bookings');
-    return response.data;
+    const response = await apiClient.get('/bookings');
+    return response.data.data || response.data;
   },
 
   // Get single booking by ID
@@ -53,13 +53,19 @@ export const bookingsApi = {
   },
 
   // Cancel booking
-  cancelBooking: async (id: string): Promise<void> => {
-    await apiClient.patch(`/bookings/${id}/cancel`);
+  cancelBooking: async (id: string, reason?: string): Promise<void> => {
+    await apiClient.patch(`/bookings/${id}/cancel`, { reason });
   },
 
   // Get bookings for a specific pitch (owner only)
   getPitchBookings: async (pitchId: string): Promise<Booking[]> => {
     const response = await apiClient.get(`/bookings/pitch/${pitchId}`);
-    return response.data;
+    return response.data.data || response.data;
+  },
+
+  // Get all bookings for owner's pitches (owner only)
+  getOwnerBookings: async (): Promise<Booking[]> => {
+    const response = await apiClient.get('/bookings/owner');
+    return response.data.data || response.data;
   },
 };

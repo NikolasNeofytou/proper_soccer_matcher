@@ -6,6 +6,7 @@ export interface Pitch {
   description: string;
   address: string;
   city: string;
+  postcode?: string;
   country: string;
   latitude: number;
   longitude: number;
@@ -17,6 +18,7 @@ export interface Pitch {
   rating: number;
   totalReviews: number;
   isAvailable: boolean;
+  status: 'active' | 'inactive';
   ownerId: string;
   ownerName: string;
   createdAt: string;
@@ -99,6 +101,12 @@ export const pitchesApi = {
   // Delete pitch (business owner only)
   deletePitch: async (id: string): Promise<void> => {
     await apiClient.delete(`/pitches/${id}`);
+  },
+
+  // Get my pitches (business owner only)
+  getMyPitches: async (): Promise<Pitch[]> => {
+    const response = await apiClient.get('/pitches/my-pitches');
+    return response.data.data || response.data;
   },
 
   // Get user's favorite pitches

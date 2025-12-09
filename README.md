@@ -4,6 +4,26 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
+[![MVP Progress](https://img.shields.io/badge/MVP-58%25-yellow.svg)](CURRENT_STATUS.md)
+
+## 🚀 Quick Start
+
+```powershell
+# Clone the repository
+git clone https://github.com/yourusername/proper_soccer_matcher.git
+cd proper_soccer_matcher
+
+# Start all services with Docker
+docker-compose up -d
+
+# Access the application
+# Frontend: http://localhost:3001
+# Backend API: http://localhost:3000/api/v1
+# API Docs: http://localhost:3000/api/docs
+```
+
+For detailed setup instructions, see [SETUP.md](SETUP.md).  
+For API integration, see [INTEGRATION_GUIDE.md](INTEGRATION_GUIDE.md).
 
 ## 🎯 Vision
 
